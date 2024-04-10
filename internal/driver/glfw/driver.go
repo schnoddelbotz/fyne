@@ -108,6 +108,10 @@ func (d *gLDriver) Quit() {
 	close(d.done)
 }
 
+func (d *gLDriver) SetLoadMessageChannel(c chan (string)) {
+	setLoadMessageChannel(c)
+}
+
 func (d *gLDriver) addWindow(w *window) {
 	d.windowLock.Lock()
 	defer d.windowLock.Unlock()

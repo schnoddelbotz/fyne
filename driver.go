@@ -24,6 +24,10 @@ type Driver interface {
 	// Quit closes the driver and open windows, then exit the application.
 	// On some some operating systems this does nothing, for example iOS and Android.
 	Quit()
+	// SetLoadMessageChannel sets the channel used for passing file open commands.
+	// They have 4 potential sources: argv, drag-on-app-icon, open-by-extension-assignment
+	// and drag into active window.
+	SetLoadMessageChannel(c chan (string))
 
 	// StartAnimation registers a new animation with this driver and requests it be started.
 	StartAnimation(*Animation)

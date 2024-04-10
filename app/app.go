@@ -4,6 +4,7 @@
 package app // import "fyne.io/fyne/v2/app"
 
 import (
+	"log"
 	"os"
 	"strconv"
 	"sync/atomic"
@@ -29,6 +30,7 @@ type fyneApp struct {
 	settings  *settings
 	storage   fyne.Storage
 	prefs     fyne.Preferences
+	openFiles chan (string)
 
 	running uint32 // atomic, 1 == running, 0 == stopped
 }
@@ -138,6 +140,13 @@ func makeStoreDocs(id string, s *store) *internal.Docs {
 
 func newAppWithDriver(d fyne.Driver, id string) fyne.App {
 	newApp := &fyneApp{uniqueID: id, driver: d, lifecycle: &app.Lifecycle{}}
+	newApp.openFiles = make(chan string)
+	d.SetLoadMessageChannel(newApp.openFiles)
+	go func() {
+		for f := range newApp.openFiles {
+			log.Printf("OPEN %s", f)
+		}
+	}()
 	fyne.SetCurrentApp(newApp)
 
 	newApp.prefs = newApp.newDefaultPreferences()
