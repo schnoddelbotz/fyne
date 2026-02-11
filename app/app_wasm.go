@@ -50,8 +50,12 @@ func (a *fyneApp) showNotification(data *fyne.Notification, notification *js.Val
 }
 
 var themeChanged = js.FuncOf(func(this js.Value, args []js.Value) any {
+	// FuncOf docs: "Invoking the wrapped Go function from JavaScript will pause the event
+	// loop and spawn a new goroutine." -- Accordingly, theme switch is wrapped in fyne.Do().
 	if len(args) > 0 && args[0].Type() == js.TypeObject {
-		fyne.CurrentApp().Settings().(*settings).setupTheme()
+		fyne.Do(func() {
+			fyne.CurrentApp().Settings().(*settings).setupTheme()
+		})
 	}
 	return nil
 })

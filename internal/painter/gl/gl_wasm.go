@@ -237,7 +237,8 @@ func (c *xjsContext) DeleteBuffer(buffer Buffer) {
 }
 
 func (c *xjsContext) DeleteTexture(texture Texture) {
-	gl.DeleteTexture(gl.Texture(texture))
+	// FIXME: Likely correct to do ... but crashes when switching theme:
+	// gl.DeleteTexture(gl.Texture(texture))
 }
 
 func (c *xjsContext) Disable(capability uint32) {
