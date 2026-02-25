@@ -3,6 +3,7 @@ package app
 import (
 	"encoding/base64"
 	"io"
+	"runtime"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/storage"
@@ -16,6 +17,10 @@ type cache struct {
 
 func makeCache(a fyne.App) fyne.Cache {
 	c := &cache{a: a, enc: base64.Encoding{}}
+
+	if runtime.GOOS == "js" {
+		return c
+	}
 
 	root := c.RootURI()
 	exists, err := storage.Exists(root)

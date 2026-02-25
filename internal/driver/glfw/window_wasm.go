@@ -464,7 +464,9 @@ func (w *window) keyPressed(viewport *glfw.Window, key glfw.Key, scancode int, a
 	keyAction := convertAction(action)
 	keyASCII := convertASCII(key)
 
-	w.processKeyPressed(keyName, keyASCII, scancode, keyAction, keyDesktopModifier)
+	fyne.Do(func() {
+		w.processKeyPressed(keyName, keyASCII, scancode, keyAction, keyDesktopModifier)
+	})
 }
 
 func desktopModifier(mods glfw.ModifierKey) fyne.KeyModifier {
