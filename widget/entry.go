@@ -471,7 +471,7 @@ func (e *Entry) SelectedText() string {
 // ClearSelection removes any active text selection in this Entry.
 // It has no effect if nothing is currently selected.
 //
-// Since: 2.7
+// Since: 2.9
 func (e *Entry) ClearSelection() {
 	if e.sel == nil || !e.sel.selecting {
 		return

@@ -142,7 +142,7 @@ func (l *Label) SelectedText() string {
 // ClearSelection removes any active text selection in this Label.
 // It has no effect if the Label is not Selectable or nothing is currently selected.
 //
-// Since: 2.7
+// Since: 2.9
 func (l *Label) ClearSelection() {
 	if !l.Selectable || l.selection == nil || !l.selection.selecting {
 		return
