@@ -468,6 +468,18 @@ func (e *Entry) SelectedText() string {
 	return e.sel.SelectedText()
 }
 
+// ClearSelection removes any active text selection in this Entry.
+// It has no effect if nothing is currently selected.
+//
+// Since: 2.9
+func (e *Entry) ClearSelection() {
+	if e.sel == nil || !e.sel.selecting {
+		return
+	}
+	e.sel.selecting = false
+	e.Refresh()
+}
+
 // SetIcon sets the leading icon resource for the entry.
 // The icon will be displayed at the outer left of the entry, but is not clickable.
 // This can be used to indicate the purpose of the entry, such as an email or password field.

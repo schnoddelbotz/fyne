@@ -234,6 +234,34 @@ func TestLabel_Select(t *testing.T) {
 	assert.Empty(t, l.SelectedText())
 }
 
+func TestLabel_ClearSelection(t *testing.T) {
+	l := NewLabel("Hello")
+	l.Selectable = true
+
+	sel := test.WidgetRenderer(l).Objects()[0].(*focusSelectable)
+	sel.MouseDown(&desktop.MouseEvent{
+		Button:     desktop.MouseButtonPrimary,
+		PointEvent: fyne.PointEvent{Position: fyne.NewPos(15, 10)},
+	})
+	sel.Dragged(&fyne.DragEvent{
+		Dragged:    fyne.Delta{DX: 15, DY: 0},
+		PointEvent: fyne.PointEvent{Position: fyne.NewPos(30, 10)},
+	})
+	sel.DragEnd()
+	sel.MouseUp(&desktop.MouseEvent{
+		Button:     desktop.MouseButtonPrimary,
+		PointEvent: fyne.PointEvent{Position: fyne.NewPos(30, 10)},
+	})
+	assert.Equal(t, "el", l.SelectedText())
+
+	l.ClearSelection()
+	assert.Equal(t, "", l.SelectedText())
+
+	// calling again with nothing selected is a no-op
+	l.ClearSelection()
+	assert.Equal(t, "", l.SelectedText())
+}
+
 func TestLabel_SelectWord(t *testing.T) {
 	l := NewLabel("Hello")
 	l.Selectable = true
